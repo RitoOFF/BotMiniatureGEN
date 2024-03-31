@@ -53,19 +53,23 @@ class FontButton(discord.ui.View):
 
     @discord.ui.button(label="Something", style=discord.ButtonStyle.blurple)    
     async def font_1(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message(f"```The font is set on Something```")
         font_path = "font/1_font.ttf"
         bot.font[interaction.user.id] = font_path
         await interaction.channel.send("```What position you choose ?```", view=PositionButton()) 
     @discord.ui.button(label="Demon Panic", style=discord.ButtonStyle.blurple)    
     async def font_2(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message(f"```The font is set on Demon Panic ```")
         font_path = "font/2_font.oft"
         bot.font[interaction.user.id] = font_path   
         await interaction.channel.send("```What position you choose ?```", view=PositionButton()) 
     @discord.ui.button(label="Minecraft", style=discord.ButtonStyle.blurple)    
     async def font_3(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message(f"```The font is set on Minecraft```")
         font_path = "font/3_font.ttf"
         bot.font[interaction.user.id] = font_path 
-        await interaction.channel.send("```What position you choose ?```", view=PositionButton())        
+        file = discord.File("img/position.png", filename="position.png")
+        await interaction.channel.send("```What position you choose ?```",file=file, view=PositionButton())        
 
 
 class PositionButton(discord.ui.View):
