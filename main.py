@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 import requests
 from io import BytesIO
 import json
+import asyncio
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -17,6 +18,7 @@ bot.size_title = {}
 bot.position = {}
 bot.font = {}
 
+created_miniature_channels = set()
 
 class SizeButton(discord.ui.View):
     def __init__(self) -> None:
@@ -165,7 +167,35 @@ async def on_ready():
 
 @bot.command(name="miniature", description="Allows you to generate your thumbnail")    
 async def miniature(ctx):
-    await ctx.send("```What size you choose ?```",view=SizeButton())
+    
+    category_id = config['categorie']
+
+ 
+    if ctx.author.id in created_miniature_channels:
+        await ctx.send("```You already have an active miniature channel.```")
+        return
+
+    if ctx.author == ctx.guild.owner:
+
+        category = ctx.guild.get_channel(category_id)
+        if category and isinstance(category, discord.CategoryChannel):
+            existing_miniatures = sum(1 for channel in category.channels if channel.name.startswith("miniature-"))
+            next_miniature_name = f"miniature-{existing_miniatures + 1}"
+
+            new_channel = await category.create_text_channel(name=next_miniature_name)
+
+            created_miniature_channels.add(ctx.author.id)
+
+            await new_channel.set_permissions(ctx.guild.default_role, read_messages=False)
+            await new_channel.set_permissions(ctx.author, read_messages=True, send_messages=True)
+
+            await new_channel.send("```What size you choose ?```", view=SizeButton())
+
+            await ctx.send(f"```A miniature channel has been created!``` {new_channel.mention}")
+        else:
+            await ctx.send("```Could not find the specified category.```")
+    else:
+        await ctx.send("```You do not have permission to execute this command.```")
 
 async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font):
     response = requests.get(image_url)
@@ -219,5 +249,9 @@ async def create_miniature(interaction, image_url, width, height, title, positio
 
     channel = interaction.channel
     await channel.send(file=file, embed=embed)
+    await channel.send("```THE CHANNEL IS DELETE IN 30SEC```")
+    await asyncio.sleep(30)
+    await channel.delete()
+    created_miniature_channels.remove(interaction.user.id)
 
 bot.run(config['token'])
