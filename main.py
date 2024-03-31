@@ -12,6 +12,20 @@ with open('config.json', 'r') as f:
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 bot.size = {}
 
+
+class SizeButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+
+    @discord.ui.button(label="1920x1080", style=discord.ButtonStyle.blurple)    
+    async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message("```Send your image: ```")
+        bot.size[interaction.user.id] = (1920, 1080)
+        image_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user and message.attachments)
+        image_url = image_msg.attachments[0].url
+        await create_miniature(interaction, image_url, 1920, 1080)
+
 @bot.event
 async def on_ready():
     banner = """
@@ -40,20 +54,9 @@ async def on_ready():
 
 @bot.command(name="miniature", description="Allows you to generate your thumbnail")    
 async def miniature(ctx):
-    await ctx.send("```What size do you want your miniature to be? (width x height)\nExample: 500x500```")
-    size_msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
-    size_str = size_msg.content.strip()
-    try:
-        width, height = map(int, size_str.split('x'))
-        bot.size[ctx.author.id] = (width, height)
-        await ctx.send("```Please send your image :```")
-        image_msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author and message.attachments)
-        image_url = image_msg.attachments[0].url
-        await create_miniature(ctx, image_url, width, height)
-    except ValueError:
-        await ctx.send("```Please enter a valid size in 'width x height' format\nExample: 500x500```")
+    await ctx.send("```What size you choose ?```",view=SizeButton())
 
-async def create_miniature(ctx, image_url, width, height):
+async def create_miniature(interaction, image_url, width, height):
     response = requests.get(image_url)
     image = Image.open(BytesIO(response.content))
 
@@ -67,6 +70,7 @@ async def create_miniature(ctx, image_url, width, height):
     embed = discord.Embed(title="Result :", color=0x6359FF)
     embed.set_image(url="attachment://miniature.png")
 
-    await ctx.send(file=file, embed=embed)
+    channel = interaction.channel
+    await channel.send(file=file, embed=embed)
 
 bot.run(config['token'])
