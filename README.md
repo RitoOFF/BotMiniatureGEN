@@ -1,6 +1,6 @@
 ---------------------------------------------
 
-# BotMiniatureGEN
+# DevDen | BOT
 - Small project to get back into the python bath allowing you to generate your own thumbnail from a simple discord bot
  
 ---------------------------------------------
@@ -18,3 +18,5 @@
 
 
 IS NOT FINISHED
+
+![logo](https://github.com/RitoOFF/BotMiniatureGEN/assets/125696277/85599214-c3eb-4795-a731-41a90e2b41bf)
