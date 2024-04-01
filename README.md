@@ -12,3 +12,6 @@
 
 # Discord
 - Link : https://discord.gg/NcEVDCTj
+
+
+IS NOT FINISHED
