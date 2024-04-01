@@ -6,8 +6,9 @@ import requests
 from io import BytesIO
 import json
 import asyncio
+import random
 
-with open('config.json', 'r') as f:
+with open('config.json', 'r', encoding='utf-8') as f:
     config = json.load(f)
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
@@ -17,21 +18,19 @@ bot.title = {}
 bot.size_title = {}
 bot.position = {}
 bot.font = {}
+bot.type = {}
+bot.element = {}
 
 created_miniature_channels = set()
 
-class SizeButton(discord.ui.View):
+class ElementButton(discord.ui.View):
     def __init__(self) -> None:
         super().__init__(timeout=None)
 
-    @discord.ui.button(label="1920x1080", style=discord.ButtonStyle.blurple)    
+    @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
     async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        await interaction.response.send_message("```Send your image: ```")
-        bot.size[interaction.user.id] = (1920, 1080)
-        image_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user and message.attachments)
-        bot.image_url[interaction.user.id] = image_msg.attachments[0].url
-
-        await interaction.channel.send("```Send your title: ```")
+        bot.element[interaction.user.id] = "element/fortnite/1.png"
+        await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
 
@@ -47,6 +46,228 @@ class SizeButton(discord.ui.View):
         await interaction.channel.send(file=file_1)
         await interaction.channel.send(file=file_2)
         await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="2", style=discord.ButtonStyle.blurple)    
+    async def second(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/2.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="3", style=discord.ButtonStyle.blurple)    
+    async def their(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/3.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="4", style=discord.ButtonStyle.blurple)    
+    async def foor(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/4.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="5", style=discord.ButtonStyle.blurple)    
+    async def five(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/5.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="6", style=discord.ButtonStyle.blurple)    
+    async def six(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/6.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="7", style=discord.ButtonStyle.blurple)    
+    async def seven(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/7.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="8", style=discord.ButtonStyle.blurple)    
+    async def eight(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/8.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+    @discord.ui.button(label="9", style=discord.ButtonStyle.blurple)    
+    async def nine(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/9.png"
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())
+
+class TypeMiniatureButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Fortnite", style=discord.ButtonStyle.blurple)    
+    async def fortnite(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message("```Choose your elements on your miniature: ```")
+        bot.type[interaction.user.id] = "fortnite"
+ 
+        file_1 = discord.File("element/fortnite/choose/1.png", filename="1_fortnite.png")
+        file_2 = discord.File("element/fortnite/choose/2.png", filename="2_fortnite.png")
+        file_3 = discord.File("element/fortnite/choose/3.png", filename="3_fortnite.png")
+        file_4 = discord.File("element/fortnite/choose/4.png", filename="4_fortnite.png")
+        file_5 = discord.File("element/fortnite/choose/5.png", filename="5_fortnite.png")
+        file_6 = discord.File("element/fortnite/choose/6.png", filename="6_fortnite.png")
+        file_7 = discord.File("element/fortnite/choose/7.png", filename="7_fortnite.png")
+        file_8 = discord.File("element/fortnite/choose/8.png", filename="8_fortnite.png")
+        file_9 = discord.File("element/fortnite/choose/9.png", filename="9_fortnite.png")
+
+        await interaction.channel.send(files=[file_1, file_2, file_3, file_4, file_5, file_6, file_7, file_8, file_9], view=ElementButton())
+    @discord.ui.button(label="Minecraft", style=discord.ButtonStyle.blurple)    
+    async def minecraft(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.channel.send("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+    @discord.ui.button(label="Valorant", style=discord.ButtonStyle.blurple)    
+    async def valorant(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.channel.send("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file_1 = discord.File("font/1_font.png", filename="1_font.png")
+        file_2 = discord.File("font/2_font.png", filename="2_font.png")
+        file_3 = discord.File("font/3_font.png", filename="3_font.png")
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())    
+        
+   
+        await interaction.channel.send(file=file_1)
+        await interaction.channel.send(file=file_2)
+        await interaction.channel.send(file=file_3, view=FontButton())    
+
+class SizeButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Miniature", style=discord.ButtonStyle.blurple)    
+    async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        await interaction.response.send_message("```Send your background: ```")
+        bot.size[interaction.user.id] = (1920, 1080)
+        image_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user and message.attachments)
+        bot.image_url[interaction.user.id] = image_msg.attachments[0].url
+
+        await interaction.channel.send("```Choose the type of miniature```", view=TypeMiniatureButton())
         
 
 class FontButton(discord.ui.View):
@@ -91,7 +312,9 @@ class PositionButton(discord.ui.View):
             bot.title[interaction.user.id],
             bot.position[interaction.user.id],
             bot.size_title[interaction.user.id],
-            bot.font[interaction.user.id]
+            bot.font[interaction.user.id],
+            bot.type[interaction.user.id],
+            bot.element[interaction.user.id]
         )
 
     @discord.ui.button(label="Top Right", style=discord.ButtonStyle.blurple)    
@@ -165,45 +388,75 @@ async def on_ready():
     faded_banner = fade.purplepink(banner)
     print(faded_banner)
 
+@bot.event
+async def on_raw_reaction_add(payload):
+    if payload.member.bot:
+        return
+
+    channel = await bot.fetch_channel(payload.channel_id)
+    message = await channel.fetch_message(payload.message_id)
+
+    if str(payload.emoji) == "🛒":
+        category_id = config['category_shop']
+        category = bot.get_channel(category_id)
+
+        if category and isinstance(category, discord.CategoryChannel):
+            existing_miniatures = sum(1 for channel in category.channels if channel.name.startswith("miniature-"))
+            next_miniature_name = f"miniature-{existing_miniatures + 1}"
+
+            guild = bot.get_guild(payload.guild_id)
+            owner = await guild.fetch_member(payload.user_id)
+            new_channel = await category.create_text_channel(name=next_miniature_name)
+            created_miniature_channels.add(owner.id)
+            await new_channel.set_permissions(guild.default_role, read_messages=False)
+            await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
+            await new_channel.send("```What types you choose ?```", view=SizeButton())
+            reply_message = await message.reply(f"```A miniature channel has been created!``` {new_channel.mention}")
+            await asyncio.sleep(5)
+            await reply_message.delete()
+        else:
+            print("Could not find the specified category.")
+
 @bot.command(name="miniature", description="Allows you to generate your thumbnail")    
 async def miniature(ctx):
-    
-    category_id = config['categorie']
 
  
     if ctx.author.id in created_miniature_channels:
         await ctx.send("```You already have an active miniature channel.```")
         return
+    
+    if ctx.author.id != ctx.guild.owner_id:
+        await ctx.send("```Only the server owner can use this command.```")
+        return
+    message = await ctx.send(config['message'])
+    await message.add_reaction("🛒")
+    await message.add_reaction("🤝")
+    await message.add_reaction("🎯")
+    await message.add_reaction("🧷")
+    await message.add_reaction("⭐")
 
-    if ctx.author == ctx.guild.owner:
-
-        category = ctx.guild.get_channel(category_id)
-        if category and isinstance(category, discord.CategoryChannel):
-            existing_miniatures = sum(1 for channel in category.channels if channel.name.startswith("miniature-"))
-            next_miniature_name = f"miniature-{existing_miniatures + 1}"
-
-            new_channel = await category.create_text_channel(name=next_miniature_name)
-
-            created_miniature_channels.add(ctx.author.id)
-
-            await new_channel.set_permissions(ctx.guild.default_role, read_messages=False)
-            await new_channel.set_permissions(ctx.author, read_messages=True, send_messages=True)
-
-            await new_channel.send("```What size you choose ?```", view=SizeButton())
-
-            await ctx.send(f"```A miniature channel has been created!``` {new_channel.mention}")
-        else:
-            await ctx.send("```Could not find the specified category.```")
-    else:
-        await ctx.send("```You do not have permission to execute this command.```")
-
-async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font):
+async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font, type, element):
     response = requests.get(image_url)
-    image = Image.open(BytesIO(response.content))
+    background_image = Image.open(BytesIO(response.content))
 
-    resized_image = image.resize((width, height))
+    background_image = background_image.resize((width, height))
 
-    draw = ImageDraw.Draw(resized_image)
+    if type == "fortnite":
+        overlay_image = Image.open(element)  
+
+
+        overlay_width, overlay_height = overlay_image.size
+        
+
+        if overlay_width > width or overlay_height > height:
+            print("L'image d'overlay est trop grande et sera redimensionnée.")
+            overlay_image = overlay_image.resize((width, height))
+
+
+        background_image.paste(overlay_image, (0, 0), overlay_image)
+
+    
+    draw = ImageDraw.Draw(background_image)
     font = ImageFont.truetype(font, size=int(titlesize))
     text_bbox = draw.textbbox((0, 0), title, font=font)
     text_width = text_bbox[2] - text_bbox[0]
@@ -240,18 +493,22 @@ async def create_miniature(interaction, image_url, width, height, title, positio
     draw.text((position_x, position_y), title, fill=(255, 255, 255), font=font)
 
     with BytesIO() as img_bytes:
-        resized_image.save(img_bytes, format="PNG")
+        background_image.save(img_bytes, format="PNG")
         img_bytes.seek(0)
-        file = discord.File(img_bytes, filename="miniature.png")
+        file = discord.File(img_bytes, filename="DEVDEN-deminiature.png")
 
-    embed = discord.Embed(title="Result :", color=0x6359FF)
-    embed.set_image(url="attachment://miniature.png")
+    await interaction.channel.send(f"The result for you {interaction.user} : ",file=file)
 
-    channel = interaction.channel
-    await channel.send(file=file, embed=embed)
-    await channel.send("```THE CHANNEL IS DELETE IN 30SEC```")
+    category_result_id = config["category_result"]
+    category_result_channel = interaction.guild.get_channel(category_result_id)
+
+    if category_result_channel:
+        await category_result_channel.send(file=file)
+    else:
+        print("Could not find the specified result category channel.")
+
     await asyncio.sleep(30)
-    await channel.delete()
+    await interaction.channel.delete()
     created_miniature_channels.remove(interaction.user.id)
 
 bot.run(config['token'])
