@@ -75,7 +75,7 @@
 - Link : https://discord.gg/NcEVDCTj
 
 # RENDER OF BETA PROJECT : 
-![image](https://github.com/RitoOFF/DevDen-BOT/assets/125696277/4ebaa680-f4f4-4daf-9626-e19b73c60b29)
+![image](https://github.com/RitoOFF/DevDen-BOT/assets/125696277/00714c0e-8e3b-4566-af6a-7c68003105e7)
 
 IS NOT FINISHED
 
