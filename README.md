@@ -32,13 +32,13 @@
 - the generation of your image with a copyright as well as the fact that the text is displayed 10 pixels from the borders
 
 - Resize your backgorund to the ideal size for a thumbnail
-- 
+ 
 ---------------------------------------------
 
 # Discord
 - Link : https://discord.gg/NcEVDCTj
 
-# RENDER OF ALPHA PROJECT : 
+# RENDER OF BETA PROJECT : 
 ![image](https://github.com/RitoOFF/DevDen-BOT/assets/125696277/4ebaa680-f4f4-4daf-9626-e19b73c60b29)
 
 IS NOT FINISHED
