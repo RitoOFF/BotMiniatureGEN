@@ -1,7 +1,7 @@
 import discord
 import fade
 from discord.ext import commands
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import requests
 from io import BytesIO
 from pypresence import Presence
@@ -26,16 +26,18 @@ bot.position = {}
 bot.font = {}
 bot.type = {}
 bot.element = {}
+bot.flou = {}
+bot.border = {}
 
 created_miniature_channels = set()
 
-class ElementButton(discord.ui.View):
+class FlouButton(discord.ui.View):
     def __init__(self) -> None:
         super().__init__(timeout=None)
 
     @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
     async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/1.png"
+        bot.flou[interaction.user.id] = 1
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -49,7 +51,7 @@ class ElementButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())  
     @discord.ui.button(label="2", style=discord.ButtonStyle.blurple)    
     async def second(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/2.png"
+        bot.flou[interaction.user.id] = 2
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -60,10 +62,10 @@ class ElementButton(discord.ui.View):
  
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())    
     @discord.ui.button(label="3", style=discord.ButtonStyle.blurple)    
-    async def their(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/3.png"
+    async def three(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.flou[interaction.user.id] = 3
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -74,10 +76,10 @@ class ElementButton(discord.ui.View):
  
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())      
     @discord.ui.button(label="4", style=discord.ButtonStyle.blurple)    
     async def foor(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/4.png"
+        bot.flou[interaction.user.id] = 4
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -88,10 +90,10 @@ class ElementButton(discord.ui.View):
  
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())    
     @discord.ui.button(label="5", style=discord.ButtonStyle.blurple)    
     async def five(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/5.png"
+        bot.flou[interaction.user.id] = 5
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -102,10 +104,10 @@ class ElementButton(discord.ui.View):
  
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())        
     @discord.ui.button(label="6", style=discord.ButtonStyle.blurple)    
     async def six(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/6.png"
+        bot.flou[interaction.user.id] = 6
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -119,7 +121,7 @@ class ElementButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())  
     @discord.ui.button(label="7", style=discord.ButtonStyle.blurple)    
     async def seven(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/7.png"
+        bot.flou[interaction.user.id] = 7
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -130,10 +132,10 @@ class ElementButton(discord.ui.View):
  
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())        
     @discord.ui.button(label="8", style=discord.ButtonStyle.blurple)    
     async def eight(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/8.png"
+        bot.flou[interaction.user.id] = 8
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -141,12 +143,13 @@ class ElementButton(discord.ui.View):
         await interaction.channel.send("```Send the size of text: ```")
         size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.size_title[interaction.user.id] = size_title_msg.content
+ 
         file1 = discord.File("img/font.png", filename="font.png")
 
-        await interaction.channel.send(file=file1, view=FontButton())  
+        await interaction.channel.send(file=file1, view=FontButton())         
     @discord.ui.button(label="9", style=discord.ButtonStyle.blurple)    
     async def nine(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.element[interaction.user.id] = "element/fortnite/9.png"
+        bot.flou[interaction.user.id] = 9
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -155,10 +158,67 @@ class ElementButton(discord.ui.View):
         size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.size_title[interaction.user.id] = size_title_msg.content
  
- 
         file1 = discord.File("img/font.png", filename="font.png")
 
         await interaction.channel.send(file=file1, view=FontButton())  
+class ElementButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
+    async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="2", style=discord.ButtonStyle.blurple)    
+    async def second(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="3", style=discord.ButtonStyle.blurple)    
+    async def their(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="4", style=discord.ButtonStyle.blurple)    
+    async def foor(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="5", style=discord.ButtonStyle.blurple)    
+    async def five(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="6", style=discord.ButtonStyle.blurple)    
+    async def six(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())   
+    @discord.ui.button(label="7", style=discord.ButtonStyle.blurple)    
+    async def seven(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="8", style=discord.ButtonStyle.blurple)    
+    async def eight(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
+    @discord.ui.button(label="9", style=discord.ButtonStyle.blurple)    
+    async def nine(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.element[interaction.user.id] = "element/fortnite/1.png" 
+        file1 = discord.File("img/flou.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FlouButton())  
 
 class TypeMiniatureButton(discord.ui.View):
     def __init__(self) -> None:
@@ -286,7 +346,8 @@ class PositionButton(discord.ui.View):
             bot.size_title[interaction.user.id],
             bot.font[interaction.user.id],
             bot.type[interaction.user.id],
-            bot.element[interaction.user.id]
+            bot.element[interaction.user.id],
+            bot.flou[interaction.user.id]
         )
 
     @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
@@ -414,11 +475,12 @@ async def miniature(ctx):
     await message.add_reaction("🧷")
     await message.add_reaction("⭐")
 
-async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font, type, element):
+async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font, type, element, flou):
     response = requests.get(image_url)
     background_image = Image.open(BytesIO(response.content))
 
     background_image = background_image.resize((width, height))
+    background_image = background_image.filter(ImageFilter.GaussianBlur(flou))
 
     if type == "fortnite":
         overlay_image = Image.open(element)  
