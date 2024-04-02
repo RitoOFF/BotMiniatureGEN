@@ -1,7 +1,39 @@
 ---------------------------------------------
 
 # DevDen | BOT
-- Small project to get back into the python bath allowing you to generate your own thumbnail from a simple discord bot
+
+-------------
+
+**1. Project Presentation:**
+
+> :art: Good evening everyone! Today, I present to you a small Python project: a bot that generates thumbnails with options to choose your background, an element on top such as Fortnite skins if you choose Fortnite type, or Minecraft skins, etc...
+
+-------------
+
+**2. Features:**
+
+> This project is still in development and I am currently at my ALPHA stage. Here are the available features for now:
+
+- :frame_photo: !miniature: allows displaying a message with reactions to create a thumbnail by clicking on the shopping cart. Other reactions are not yet finished.
+- :frame_photo: Integration of a background that will automatically resize to the ideal thumbnail size.
+- :pen_ballpoint: Integration of a title.
+- :pen_ballpoint: Integration of a font.
+- :pen_ballpoint: Integration of a position for the title.
+- :video_game: Integration of a type of thumbnail (only Fortnite is available for now).
+- :art: Integration of an element on your thumbnail that will randomly position itself either to the right, left, or center.
+  
+-------------
+  
+**3. Language:**
+
+> The project is exclusively developed in Python with these imported modules that you can download via setup.cmd:
+
+- discord
+- fade
+- PIL
+- request
+- io
+- json
  
 ---------------------------------------------
 
