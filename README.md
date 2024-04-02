@@ -14,13 +14,17 @@
 
 > This project is still in development and I am currently at my ALPHA stage. Here are the available features for now:
 
-- :frame_photo: !miniature: allows displaying a message with reactions to create a thumbnail by clicking on the shopping cart. Other reactions are not yet finished.
-- :frame_photo: Integration of a background that will automatically resize to the ideal thumbnail size.
-- :pen_ballpoint: Integration of a title.
-- :pen_ballpoint: Integration of a font.
-- :pen_ballpoint: Integration of a position for the title.
-- :video_game: Integration of a type of thumbnail (only Fortnite is available for now).
-- :art: Integration of an element on your thumbnail that will randomly position itself either to the right, left, or center.
+- :frame_photo: !miniature: allowing you to spawn a message to interact with the emojis in order to create your miniature. This is configurable in the config.
+- :video_game: The type of graphics you want to make that miniature is available at the moment.
+- :framed_picture: Send your background you want on your thumbnail.
+- :art: The type of your miniature. For the moment, there is Fortnite, Minecraft, and Valorant available to add elements like skins to your miniature.
+- :sparkles: A possible blur effect to choose from with an intensity from 1 to 9.
+- :pencil: A title that appears on your thumbnail.
+- :abc: Choose the text size.
+- :font: More than 6 fonts for your text.
+- :arrow_heading_up: The position of your text.
+- :page_with_curl: The generation of your image with a copyright, as well as the fact that the text is displayed 10 pixels from the borders.
+- :framed_picture: Resize your background to the ideal size for a thumbnail.
   
 -------------
   
