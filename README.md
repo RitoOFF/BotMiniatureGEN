@@ -14,8 +14,7 @@
 - Link : https://discord.gg/NcEVDCTj
 
 # RENDER OF ALPHA PROJECT : 
-![image](https://github.com/RitoOFF/BotMiniatureGEN/assets/125696277/52e6fcbb-379f-479e-805c-b4e9104edff5)
-
+![image](https://github.com/RitoOFF/DevDen-BOT/assets/125696277/4ebaa680-f4f4-4daf-9626-e19b73c60b29)
 
 IS NOT FINISHED
 
