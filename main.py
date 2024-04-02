@@ -4,18 +4,13 @@ from discord.ext import commands
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import requests
 from io import BytesIO
-from pypresence import Presence
 import json
 import asyncio
 import time
-import textwrap
 
 with open('config.json', 'r', encoding='utf-8') as f:
     config = json.load(f)
 
-rpc = Presence("1218949912121573406")
-rpc.connect()
-rpc.update(state="Play DevDen Bot",details="Playings games",large_image="logo-devden",start=time.time())
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 bot.size = {}
@@ -29,16 +24,16 @@ bot.element = {}
 bot.flou = {}
 bot.border = {}
 bot.overlay = {}
+bot.color = {}
 
 created_miniature_channels = set()
-
-class BorderButton(discord.ui.View):
+class ColorButton(discord.ui.View):
     def __init__(self) -> None:
         super().__init__(timeout=None)
 
     @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
     async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_1.png"
+        bot.color[interaction.user.id] = 1
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -52,7 +47,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())  
     @discord.ui.button(label="2", style=discord.ButtonStyle.blurple)    
     async def second(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_2.png"
+        bot.color[interaction.user.id] = 2
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -66,7 +61,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())    
     @discord.ui.button(label="3", style=discord.ButtonStyle.blurple)    
     async def three(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_3.png"
+        bot.color[interaction.user.id] = 3
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -80,7 +75,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())      
     @discord.ui.button(label="4", style=discord.ButtonStyle.blurple)    
     async def foor(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_4.png"
+        bot.color[interaction.user.id] = 4
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -94,7 +89,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())    
     @discord.ui.button(label="5", style=discord.ButtonStyle.blurple)    
     async def five(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_5.png"
+        bot.color[interaction.user.id] = 5
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -108,7 +103,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())        
     @discord.ui.button(label="6", style=discord.ButtonStyle.blurple)    
     async def six(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_6.png"
+        bot.color[interaction.user.id] = 6
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -122,7 +117,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())  
     @discord.ui.button(label="7", style=discord.ButtonStyle.blurple)    
     async def seven(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_7.png"
+        bot.color[interaction.user.id] = 7
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -136,7 +131,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())        
     @discord.ui.button(label="8", style=discord.ButtonStyle.blurple)    
     async def eight(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_8.png"
+        bot.color[interaction.user.id] = 8
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -150,7 +145,7 @@ class BorderButton(discord.ui.View):
         await interaction.channel.send(file=file1, view=FontButton())         
     @discord.ui.button(label="9", style=discord.ButtonStyle.blurple)    
     async def nine(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
-        bot.border[interaction.user.id] = "element/other/border/border_9.png"
+        bot.color[interaction.user.id] = 9
         await interaction.response.send_message("```Send your title: ```")
         title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
         bot.title[interaction.user.id] = title_msg.content
@@ -162,6 +157,79 @@ class BorderButton(discord.ui.View):
         file1 = discord.File("img/font.png", filename="font.png")
 
         await interaction.channel.send(file=file1, view=FontButton())  
+    @discord.ui.button(label="10", style=discord.ButtonStyle.blurple)    
+    async def ten(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.color[interaction.user.id] = 10
+        await interaction.response.send_message("```Send your title: ```")
+        title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.title[interaction.user.id] = title_msg.content
+
+        await interaction.channel.send("```Send the size of text: ```")
+        size_title_msg = await bot.wait_for('message', check=lambda message: message.author == interaction.user)
+        bot.size_title[interaction.user.id] = size_title_msg.content
+ 
+        file1 = discord.File("img/font.png", filename="font.png")
+
+        await interaction.channel.send(file=file1, view=FontButton())  
+
+class BorderButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
+    async def first(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_1.png" 
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())  
+    @discord.ui.button(label="2", style=discord.ButtonStyle.blurple)    
+    async def second(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_2.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())    
+    @discord.ui.button(label="3", style=discord.ButtonStyle.blurple)    
+    async def three(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_3.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())      
+    @discord.ui.button(label="4", style=discord.ButtonStyle.blurple)    
+    async def foor(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_4.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())    
+    @discord.ui.button(label="5", style=discord.ButtonStyle.blurple)    
+    async def five(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_5.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())      
+    @discord.ui.button(label="6", style=discord.ButtonStyle.blurple)    
+    async def six(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_6.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())  
+    @discord.ui.button(label="7", style=discord.ButtonStyle.blurple)    
+    async def seven(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_7.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())      
+    @discord.ui.button(label="8", style=discord.ButtonStyle.blurple)    
+    async def eight(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_8.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())       
+    @discord.ui.button(label="9", style=discord.ButtonStyle.blurple)    
+    async def nine(self, interaction : discord.Interaction, button : discord.ui.Button) -> None:
+        bot.border[interaction.user.id] = "element/other/border/border_9.png"
+        file1 = discord.File("img/color.png", filename="color.png")
+
+        await interaction.channel.send(file=file1, view=ColorButton())  
 
 class OverlayButton(discord.ui.View):
     def __init__(self) -> None:
@@ -530,7 +598,8 @@ class PositionButton(discord.ui.View):
             bot.element[interaction.user.id],
             bot.flou[interaction.user.id],
             bot.border[interaction.user.id],
-            bot.overlay[interaction.user.id]
+            bot.overlay[interaction.user.id],
+            bot.color[interaction.user.id]
         )
 
     @discord.ui.button(label="1", style=discord.ButtonStyle.blurple)    
@@ -614,38 +683,48 @@ async def on_raw_reaction_add(payload):
     message = await channel.fetch_message(payload.message_id)
 
     if str(payload.emoji) == "🛒":
-        category_id = config['category_shop']
-        category = bot.get_channel(category_id)
         guild = bot.get_guild(payload.guild_id)
         owner = await guild.fetch_member(payload.user_id)
 
-        if owner.id in created_miniature_channels:
-            reply_message = await message.reply(f"```You already have an active miniature channel !```")
-            await asyncio.sleep(5)
-            await reply_message.delete()
-            return
 
-        if category and isinstance(category, discord.CategoryChannel):
-            existing_miniatures = sum(1 for channel in category.channels if channel.name.startswith("miniature-"))
-            next_miniature_name = f"miniature-{existing_miniatures + 1}"
+        role_id = 1224149145867124907
 
-            new_channel = await category.create_text_channel(name=next_miniature_name)
-            created_miniature_channels.add(owner.id)
-            await new_channel.set_permissions(guild.default_role, read_messages=False)
-            await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
-            await new_channel.send("```What types you choose ?```", view=SizeButton())
-            reply_message = await message.reply(f"```A miniature channel has been created!``` {new_channel.mention}")
-            await asyncio.sleep(5)
-            await reply_message.delete()
+       
+        role = discord.utils.get(owner.roles, id=role_id)
+        if role:
+            
+            category_id = config['category_shop']
+            category = bot.get_channel(category_id)
+            if category:
+                existing_miniature_channels = [ch for ch in category.channels if ch.name.startswith("miniature-") and owner in ch.members]
+                if existing_miniature_channels:
+                    return
+
+            if category and isinstance(category, discord.CategoryChannel):
+                existing_miniatures = sum(1 for channel in category.channels if channel.name.startswith("miniature-"))
+                next_miniature_name = f"miniature-{existing_miniatures + 1}"
+
+                new_channel = await category.create_text_channel(name=next_miniature_name)
+                created_miniature_channels.add(owner.id)
+                await new_channel.set_permissions(guild.default_role, read_messages=False)
+                await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
+                await new_channel.send("```What types you choose ?```", view=SizeButton())
+                reply_message = await message.reply(f"```A miniature channel has been created!``` {new_channel.mention}")
+                await asyncio.sleep(5)
+                await reply_message.delete()
+            else:
+                print("Could not find the specified category.")
         else:
-            print("Could not find the specified category.")
+            reply_message = await message.reply(f"```You do not have the required role to create a miniature channel.```")
+            await asyncio.sleep(5)
+            await reply_message.delete()
+            return       
 
 @bot.command(name="miniature", description="Allows you to generate your thumbnail")    
 async def miniature(ctx):
 
  
     if ctx.author.id in created_miniature_channels:
-        await ctx.send("```You already have an active miniature channel.```")
         return
     
     if ctx.author.id != ctx.guild.owner_id:
@@ -658,124 +737,135 @@ async def miniature(ctx):
     await message.add_reaction("🧷")
     await message.add_reaction("⭐")
 
-async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font, type, element, flou, border, overlay):
-    response = requests.get(image_url)
-    background_image = Image.open(BytesIO(response.content))
+async def create_miniature(interaction, image_url, width, height, title, position, titlesize, font, type, element, flou, border, overlay, color):
+    try:
+        response = requests.get(image_url)
+        response.raise_for_status()
 
-    background_image = background_image.resize((width, height))
-    background_image = background_image.filter(ImageFilter.GaussianBlur(flou))
+        background_image = Image.open(BytesIO(response.content))
+        background_image = background_image.resize((width, height))
+        background_image = background_image.filter(ImageFilter.GaussianBlur(flou))
 
-    if type == "fortnite":
-        overlay_image = Image.open(element)  
+        if type == "fortnite" or type == "minecraft":
+            overlay_image = Image.open(element)  
+            overlay_width, overlay_height = overlay_image.size
 
-        overlay_width, overlay_height = overlay_image.size
+            if overlay_width != width or overlay_height != height:
+                overlay_image = overlay_image.resize((width, height))
+                
+            background_image.paste(overlay_image, (0, 0), overlay_image)    
 
-        if overlay_width > width or overlay_height > height:
-            print("L'image d'overlay est trop grande et sera redimensionnée.")
-            overlay_image = overlay_image.resize((width, height))
-        if overlay_width < width or overlay_height < height:
-            print("L'image d'overlay est trop grande et sera redimensionnée.")
-            overlay_image = overlay_image.resize((width, height))    
-
-        background_image.paste(overlay_image, (0, 0), overlay_image)
-    if type == "minecraft":
-        overlay_image = Image.open(element)  
-
-        overlay_width, overlay_height = overlay_image.size
-
-        if overlay_width > width or overlay_height > height:
-            print("L'image d'overlay est trop grande et sera redimensionnée.")
-            overlay_image = overlay_image.resize((width, height))
-        if overlay_width < width or overlay_height < height:
-            print("L'image d'overlay est trop grande et sera redimensionnée.")
-            overlay_image = overlay_image.resize((width, height))    
-
+        overlay_image = Image.open(overlay)
         background_image.paste(overlay_image, (0, 0), overlay_image)    
 
+        border_image = Image.open(border)
+        background_image.paste(border_image, (0, 0), border_image)    
 
-    overlay_image = Image.open(overlay)
-    background_image.paste(overlay_image, (0, 0), overlay_image)    
+        base_image = Image.open("element/other/basic.png")
+        background_image.paste(base_image, (0, 0), base_image)    
 
-    border_image = Image.open(border)
-    background_image.paste(border_image, (0, 0), border_image)    
+        draw = ImageDraw.Draw(background_image)
+        try:
+            titlesize_int = int(titlesize)
+            if titlesize_int < 10 or titlesize_int > 300:
+                titlesize_int = 150  
+        except ValueError:
+            titlesize_int = 150 
 
-    base_image = Image.open("element/other/basic.png")
-    background_image.paste(base_image, (0, 0), base_image)    
+        font_title = ImageFont.truetype(font, size=titlesize_int)
+        font_footer = ImageFont.truetype("font/1_font.ttf", size=35)  
 
-    draw = ImageDraw.Draw(background_image)
-    font_title = ImageFont.truetype(font, size=int(titlesize))
-    font_footer = ImageFont.truetype("font/1_font.ttf", size=35)  
+        wrapped_title = title
 
-    wrapped_title = title
+        text_bbox_title = draw.textbbox((0, 0), wrapped_title, font=font_title)
+        text_width_title = text_bbox_title[2] - text_bbox_title[0]
+        text_height_title = text_bbox_title[3] - text_bbox_title[1]
 
-    text_bbox_title = draw.textbbox((0, 0), wrapped_title, font=font_title)
-    text_width_title = text_bbox_title[2] - text_bbox_title[0]
-    text_height_title = text_bbox_title[3] - text_bbox_title[1]
+        offset = 50
 
-    offset = 50
+        if position == "top_left":
+            position_x_title = offset
+            position_y_title = offset
+        elif position == "top_center":
+            position_x_title = max((width - text_width_title) // 2, offset)
+            position_y_title = offset
+        elif position == "top_right":
+            position_x_title = max(width - text_width_title - offset, offset)
+            position_y_title = offset
+        elif position == "middle_left":
+            position_x_title = offset
+            position_y_title = max((height - text_height_title) // 2, offset)
+        elif position == "middle":
+            position_x_title = max((width - text_width_title) // 2, offset)
+            position_y_title = max((height - text_height_title) // 2, offset)
+        elif position == "middle_right":
+            position_x_title = max(width - text_width_title - offset, offset)
+            position_y_title = max((height - text_height_title) // 2, offset)
+        elif position == "bottom_left":
+            position_x_title = offset
+            position_y_title = max(height - text_height_title - offset, offset)
+        elif position == "bottom_center":
+            position_x_title = max((width - text_width_title) // 2, offset)
+            position_y_title = max(height - text_height_title - offset, offset)
+        elif position == "bottom_right":
+            position_x_title = max(width - text_width_title - offset, offset)
+            position_y_title = max(height - text_height_title - offset, offset)
+
+        outline_width = 9
+        outline_color = (0, 0, 0)
+        draw.text((position_x_title - outline_width, position_y_title - outline_width), title, fill=outline_color, font=font_title)
+        draw.text((position_x_title + outline_width, position_y_title - outline_width), title, fill=outline_color, font=font_title)
+        draw.text((position_x_title - outline_width, position_y_title + outline_width), title, fill=outline_color, font=font_title)
+        draw.text((position_x_title + outline_width, position_y_title + outline_width), title, fill=outline_color, font=font_title)
     
-    if position == "top_left":
-        position_x_title = offset
-        position_y_title = offset
-    elif position == "top_center":
-        position_x_title = max((width - text_width_title) // 2, offset)
-        position_y_title = offset
-    elif position == "top_right":
-        position_x_title = max(width - text_width_title - offset, offset)
-        position_y_title = offset
-    elif position == "middle_left":
-        position_x_title = offset
-        position_y_title = max((height - text_height_title) // 2, offset)
-    elif position == "middle":
-        position_x_title = max((width - text_width_title) // 2, offset)
-        position_y_title = max((height - text_height_title) // 2, offset)
-    elif position == "middle_right":
-        position_x_title = max(width - text_width_title - offset, offset)
-        position_y_title = max((height - text_height_title) // 2, offset)
-    elif position == "bottom_left":
-        position_x_title = offset
-        position_y_title = max(height - text_height_title - offset, offset)
-    elif position == "bottom_center":
-        position_x_title = max((width - text_width_title) // 2, offset)
-        position_y_title = max(height - text_height_title - offset, offset)
-    elif position == "bottom_right":
-        position_x_title = max(width - text_width_title - offset, offset)
-        position_y_title = max(height - text_height_title - offset, offset)
-
-    outline_width = 9
-    outline_color = (0, 0, 0)
-    draw.text((position_x_title - outline_width, position_y_title - outline_width), title, fill=outline_color, font=font_title)
-    draw.text((position_x_title + outline_width, position_y_title - outline_width), title, fill=outline_color, font=font_title)
-    draw.text((position_x_title - outline_width, position_y_title + outline_width), title, fill=outline_color, font=font_title)
-    draw.text((position_x_title + outline_width, position_y_title + outline_width), title, fill=outline_color, font=font_title)
-
-    draw.text((position_x_title, position_y_title), title, fill=(255, 255, 255), font=font_title)
-
-    footer_text = "DevDen & Bot"  
-
-    text_bbox_footer = draw.textbbox((0, 0), footer_text, font=font_footer)
-    text_width_footer = text_bbox_footer[2] - text_bbox_footer[0]
-    text_height_footer = text_bbox_footer[3] - text_bbox_footer[1]
+        draw.text((position_x_title, position_y_title), title, fill=(255, 255, 255), font=font_title)
     
-    position_x_footer = (width - text_width_footer) // 2
-    position_y_footer = height - text_height_footer - 10  
-    draw.text((position_x_footer, position_y_footer), footer_text, fill=(255, 255, 255), font=font_footer)
+        footer_text = "DevDen & Bot"  
+    
+        text_bbox_footer = draw.textbbox((0, 0), footer_text, font=font_footer)
+        text_width_footer = text_bbox_footer[2] - text_bbox_footer[0]
+        text_height_footer = text_bbox_footer[3] - text_bbox_footer[1]
+        
+        position_x_footer = (width - text_width_footer) // 2
+        position_y_footer = height - text_height_footer - 10  
+        draw.text((position_x_footer, position_y_footer), footer_text, fill=(255, 255, 255), font=font_footer)
 
-    with BytesIO() as img_bytes:
-        background_image.save(img_bytes, format="PNG")
-        img_bytes.seek(0)
-        file = discord.File(img_bytes, filename="DEVDEN-deminiature.png")
+        with BytesIO() as img_bytes:
+            background_image.save(img_bytes, format="PNG")
+            img_bytes.seek(0)
+            file = discord.File(img_bytes, filename="DEVDEN-deminiature-render.png")
+        with BytesIO() as img_bytes:
+            background_image.save(img_bytes, format="PNG")
+            img_bytes.seek(0)
+            file1 = discord.File(img_bytes, filename="DEVDEN-deminiature.png")
+        category_result_id = config["category_result"]
+        category_result_channel = interaction.guild.get_channel(category_result_id)                            
+        message = await category_result_channel.send(f"# DevDen - GFX\n> **Miniature** fait par nos soins pour {interaction.user.mention} !\n> N'hésite pas à inviter tes amis sur le serveur, nous t'en serions très reconnaissants 🤗", file=file)
+        await message.add_reaction("💖")
+        await message.add_reaction("👍")
+        await message.add_reaction("👎")
+        await interaction.channel.send(f"# DevDen - GFX\n\n> :shopping_cart: 『Et voilà pour toi {interaction.user.mention} ta miniature que tu as demandée avec toutes les **sélections** que tu as faites. Si vous remarquez quelque chose d'**anormal** ou à améliorer, merci de le signaler dans #✨・suggest.』\n\n> :sparkles: 『 Le canal va se **supprimer** dans peu de temps. Si vous souhaitez concevoir le rendu vous-même, vous pouvez le télécharger. Le rendu est automatiquement envoyé dans #👀・shop-render, vu que vous n'êtes pas **premium**.』\n\n> :handshake: 『 Si vous souhaitez devenir **premium** pour ne pas avoir le droit d'auteur en bas de l'image, ainsi qu'un rendu en 4K, full HD, des fonctionnalités avancées et privées, et ne pas avoir votre rendu envoyé dans #👀・shop-render, merci de contacter **rito.off**.』", file=file1)
 
-    await interaction.channel.send(f"The result for you {interaction.user} : ", file=file)
+        await asyncio.sleep(25)
+        if interaction.channel:
+            await interaction.channel.delete()
+            created_miniature_channels.remove(interaction.user.id)
 
-    category_result_id = config["category_result"]
-    category_result_channel = interaction.guild.get_channel(category_result_id)
-
-    await category_result_channel.send(f"The result for {interaction.user.name}", file=file)
-
-    await asyncio.sleep(30)
-    await interaction.channel.delete()
-    created_miniature_channels.remove(interaction.user.id)
+    except requests.exceptions.HTTPError as e:
+        await interaction.user.send(f"An error occurred while fetching the image: {e}")
+        if interaction.channel:
+            await interaction.channel.delete()
+            created_miniature_channels.remove(interaction.user.id)
+    except (IOError, OSError) as e:
+        await interaction.user.send(f"An error occurred while processing the image: {e}")
+        if interaction.channel:
+            await interaction.channel.delete()
+            created_miniature_channels.remove(interaction.user.id)
+    except Exception as e:
+        await interaction.user.send(f"An unexpected error occurred: {e}")
+        if interaction.channel:
+            await interaction.channel.delete()
+            created_miniature_channels.remove(interaction.user.id)
 
 
 
