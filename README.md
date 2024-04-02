@@ -14,7 +14,7 @@
 
 > This project is still in development and I am currently at my ALPHA stage. Here are the available features for now:
 
-- :frame_photo: !miniature: allowing you to spawn a message to interact with the emojis in order to create your miniature. This is configurable in the config.
+- 🤖 !miniature: allowing you to spawn a message to interact with the emojis in order to create your miniature. This is configurable in the config.
 - :video_game: The type of graphics you want to make that miniature is available at the moment.
 - :framed_picture: Send your background you want on your thumbnail.
 - :art: The type of your miniature. For the moment, there is Fortnite, Minecraft, and Valorant available to add elements like skins to your miniature.
