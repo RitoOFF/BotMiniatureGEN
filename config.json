@@ -1,10 +1,11 @@
 {
-    "token": "MTIxODk0OTkxMjEyMTU3MzQwNg.G9fOKk.bnAJqtQrOXfSdFhOXbLzT3z9UYDCUWzdOBiJDQ",
+    "token": "TOKEN",
     "prefix": "!",
     "category_shop": 1224082382592807013,
     "category_result": 1224146898290475200,
     "discord": "https://discord.gg/NcEVDCTj",
-    "message": "# DevDen - GFX\n> - :shopping_cart:『 Obtiens des bannières, logos et miniatures \n> - :handshake: 『 Pour nous soutenir et bénéficier d'avantages exclusifs 』\n> - :dart: 『 Pour nous soutenir et bénéficier d'avantages exclusifs 』\n> - :link: 『 Entre en contact avec le staff 』\n> - :stars: 『 Nos partenaires 』\n\n> ➡️ Clique sur une de ces réactions 👇",
+    "message": "# DevDen - GFX\n> - :shopping_cart: 『 Get banners, logos, and thumbnails 』\n> - :handshake: 『 To support us and enjoy exclusive benefits 』\n> - 👮 『 To upgrade to the premium version 』\n> - :link: 『 Get in touch with the staff 』\n> - :stars: 『 Our partners 』\n\n> ➡️ Click on one of these reactions below 👇",
     "message_id": 1224430813521907762,
-    "role_prenium": 1219398686631657632
+    "role_contributor": 1224149145867124907,
+    "role_prenium": 1225054896970010674
 }
