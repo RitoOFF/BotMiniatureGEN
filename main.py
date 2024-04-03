@@ -7,10 +7,14 @@ from io import BytesIO
 import json
 import asyncio
 import time
+import DiscordUtils
+import os
+from collections import defaultdict
+
+last_messages = defaultdict(str)
 
 with open('config.json', 'r', encoding='utf-8') as f:
     config = json.load(f)
-
 
 bot = commands.Bot(command_prefix=config['prefix'], intents=discord.Intents.all())
 bot.size = {}
@@ -693,6 +697,7 @@ class PositionButton(discord.ui.View):
         await self.send_confirmation_message(interaction, "bottom right")
         await self.send_create_miniature(interaction, "bottom_right")
 
+tracker = DiscordUtils.InviteTracker(bot)
 @bot.event
 async def on_ready():
     banner = """
@@ -718,6 +723,114 @@ async def on_ready():
 
     faded_banner = fade.purplepink(banner)
     print(faded_banner)
+    await tracker.cache_invites()
+@bot.event
+async def on_message(message):
+    
+    is_owner = message.author == message.guild.owner
+    
+ 
+    contains_discord_link = "discord.gg/" in message.content.lower() or "discord.com/invite/" in message.content.lower() or "https://discord.gg/" in message.content.lower() or "discord.gg" in message.content.lower() or ".gg/" in message.content.lower() or "gg/" in message.content.lower() or "https" in message.content.lower() or "http" in message.content.lower()
+    
+   
+    if not is_owner and contains_discord_link:
+       
+        await message.delete()
+     
+        await message.author.send("You are not authorized to share Discord links on this server.")
+    
+    if not message.author.bot:
+
+       last_message = last_messages[message.author.id]
+       
+      
+       if message.content == last_message:
+          
+           await message.delete()
+          
+           await message.author.send("Your message has been deleted because it is a duplicate.")
+       else:
+           
+           last_messages[message.author.id] = message.content
+    await bot.process_commands(message)    
+@bot.event
+async def on_invite_create(invite):
+    await tracker.update_invite_cache(invite)
+
+@bot.event
+async def on_guild_join(guild):
+    await tracker.update_guild_cache(guild)  
+
+@bot.event
+async def on_invite_delete(invite):
+    await tracker.remove_invite_cache(invite)
+
+@bot.event
+async def on_guild_remove(guild):
+    await tracker.remove_guild_cache(guild)
+    for member in guild.members:
+        inviter = await tracker.fetch_inviter(member)
+        if inviter:
+            inviter_id = str(inviter.id)
+            db_path = f'data/{inviter_id}.json'
+
+            if os.path.exists(db_path):
+                with open(db_path, 'r', encoding='utf-8') as file:
+                    db = json.load(file)
+                
+                if db:
+                    db["count"] -= 1
+                    with open(db_path, 'w', encoding='utf-8') as file:
+                        json.dump(db, file, indent=4)
+
+                    if db["count"] == 0:
+                        role_id = config["role_contributor"]  
+                        role = member.guild.get_role(role_id)
+                        if role is not None:
+                            await inviter.remove_roles(role)
+
+
+@bot.event
+async def on_member_join(member):
+    inviter = await tracker.fetch_inviter(member)
+    db = None 
+
+    if os.path.exists(f'data/{inviter.id}.json'):
+        with open(f'data/{inviter.id}.json', 'r', encoding='utf-8') as file:
+            db = json.load(file)
+    else:
+        os.makedirs('data', exist_ok=True)  
+        
+    if db is None:
+        db = {"_id": str(inviter.id), "count": 0, "userInvited": []}
+
+    db["count"] += 1
+    db["userInvited"].append(member.id)    
+
+    with open(f'data/{inviter.id}.json', 'w', encoding='utf-8') as file:
+        json.dump(db, file, indent=4)
+
+    channel = discord.utils.get(member.guild.text_channels, name="🎯・welcome")
+    channel_ping = discord.utils.get(member.guild.text_channels, name="🛒・shop")
+
+    await channel.send(f"Welcome to DevDen - GFX {member.mention}, you have been invited by {inviter.mention} who has invited {db['count']} members.")
+
+    reply_message = await channel_ping.send(f"Welcome here have all information on the server {member.mention} 🌟")
+    await asyncio.sleep(2)
+    await reply_message.delete()
+
+    role_id = config["role_contributor"]  
+    role = discord.utils.get(member.guild.roles, id=role_id)  
+    inviter_member = member.guild.get_member(inviter.id) 
+    if inviter_member:
+        if role in inviter_member.roles:
+            print("L'inviteur possède déjà le rôle.")
+        else:
+            await inviter_member.add_roles(role)
+    else:
+        print("Impossible de trouver l'inviteur dans ce serveur.")
+                 
+
 
 @bot.event
 async def on_raw_reaction_add(payload):
