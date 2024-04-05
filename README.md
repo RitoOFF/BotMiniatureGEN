@@ -73,6 +73,7 @@
 
 # Discord
 - Link : https://discord.gg/NcEVDCTj
+- The second link : discord.gg/nitromc
 
 # RENDER OF BETA PROJECT : 
 ![image](https://github.com/RitoOFF/DevDen-BOT/assets/125696277/00714c0e-8e3b-4566-af6a-7c68003105e7)
