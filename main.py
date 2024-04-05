@@ -577,6 +577,17 @@ class SizeButton(discord.ui.View):
         bot.image_url[interaction.user.id] = image_msg.attachments[0].url
 
         await interaction.channel.send("Choose the type of miniature", view=TypeMiniatureButton())
+
+class CloseButton(discord.ui.View):
+    def __init__(self) -> None:
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Close", style=discord.ButtonStyle.blurple)    
+    async def first(self, interaction: discord.Interaction, button: discord.ui.Button) -> None:
+        await interaction.response.send_message("The channel is delete ")
+        await asyncio.sleep(5)
+        await interaction.channel.delete()
+
         
 
 class FontButton(discord.ui.View):
@@ -876,7 +887,86 @@ async def on_raw_reaction_add(payload):
             reply_message = await message.reply("You must have at least 1 invitation to become a Contributor or upgrade to Premium by clicking on the emoji to access the Premium offer. 🌟")
             await asyncio.sleep(5)
             await reply_message.delete()
-            return       
+            return
+
+    if str(payload.emoji) == "🤝":
+        guild = bot.get_guild(payload.guild_id)
+        owner = await guild.fetch_member(payload.user_id)
+
+
+        role_id = config["role_contributor"]
+
+       
+        role = discord.utils.get(owner.roles, id=role_id)
+        if role:
+            
+            category_id = config['category_contributor']
+            category = bot.get_channel(category_id)
+            if category:
+                if category and isinstance(category, discord.CategoryChannel):
+                    existing_contributor = sum(1 for channel in category.channels if channel.name.startswith("contributor-"))
+                    next_contributor_name = f"contributor-{existing_contributor+ 1}"
+
+                    new_channel = await category.create_text_channel(name=next_contributor_name)
+                    created_miniature_channels.add(owner.id)
+                    await new_channel.set_permissions(guild.default_role, read_messages=False)
+                    await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
+                    await new_channel.send("Oh, what do you need from the friend you want to become a paying Contributor? ?", view=CloseButton())
+                    reply_message = await message.reply(f"A support for contributor channel has been created! {new_channel.mention}")
+                    await asyncio.sleep(5)
+                    await reply_message.delete()
+                else:
+                    print("Could not find the specified category.")
+        else:
+            reply_message = await message.reply("You must have at least 1 invitation to become a Contributor or upgrade to Premium by clicking on the emoji to access the Premium offer. 🌟")
+            await asyncio.sleep(5)
+            await reply_message.delete()
+            return
+
+    if str(payload.emoji) == "👮":
+        guild = bot.get_guild(payload.guild_id)
+        owner = await guild.fetch_member(payload.user_id)
+        category_id = config['category_prenium']
+        category = bot.get_channel(category_id)
+        if category:
+            if category and isinstance(category, discord.CategoryChannel):
+                existing_contributor = sum(1 for channel in category.channels if channel.name.startswith("prenium-"))
+                next_contributor_name = f"prenium-{existing_contributor+ 1}"
+                new_channel = await category.create_text_channel(name=next_contributor_name)
+                created_miniature_channels.add(owner.id)
+                await new_channel.set_permissions(guild.default_role, read_messages=False)
+                await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
+                await new_channel.send("Oh, what do you need from the friend you want to become a paying Prenium ?", view=CloseButton())
+                reply_message = await message.reply(f"A support for prenium channel has been created! {new_channel.mention}")
+                await asyncio.sleep(5)
+                await reply_message.delete()
+        else:
+                print("Could not find the specified category.") 
+
+    if str(payload.emoji) == "🧷":
+        guild = bot.get_guild(payload.guild_id)
+        owner = await guild.fetch_member(payload.user_id)
+        category_id = config['category_support']
+        category = bot.get_channel(category_id)
+        if category:
+            if category and isinstance(category, discord.CategoryChannel):
+                existing_contributor = sum(1 for channel in category.channels if channel.name.startswith("ticket-"))
+                next_contributor_name = f"ticket-{existing_contributor+ 1}"
+                new_channel = await category.create_text_channel(name=next_contributor_name)
+                created_miniature_channels.add(owner.id)
+                await new_channel.set_permissions(guild.default_role, read_messages=False)
+                await new_channel.set_permissions(owner, read_messages=True, send_messages=True)
+                await new_channel.send("What your request for my support ?", view=CloseButton())
+                reply_message = await message.reply(f"A support for ticket channel has been created! {new_channel.mention}")
+                await asyncio.sleep(5)
+                await reply_message.delete()
+        else:
+                print("Could not find the specified category.")   
+
+    if str(payload.emoji) == "⭐":
+            reply_message = await message.reply(f"The partener of server is send and dm")
+            await asyncio.sleep(5)
+            await reply_message.delete()                                             
 
 @bot.command(name="miniature", description="Allows you to generate your thumbnail")    
 async def miniature(ctx):
